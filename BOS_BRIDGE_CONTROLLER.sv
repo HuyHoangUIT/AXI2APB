@@ -48,7 +48,7 @@ module BOS_BRIDGE_CONTROLLER
   input        [BOS_PARA_W_DATA_WIDTH-1:0]     I_W_DATA,
   input        [BOS_PARA_AWR_DATA_WIDTH-1:0]   I_AR_DATA,
   output logic [BOS_PARA_B_DATA_WIDTH-1:0]     O_B_DATA,
-  output logic [BOS_PARA_R_DATA_WIDTH-1:0]       O_R_DATA,
+  output logic [BOS_PARA_R_DATA_WIDTH-1:0]     O_R_DATA,
 
   // --- FIFO Control Signals ---
   output logic                                 O_POP_WRITE,
@@ -124,13 +124,11 @@ module BOS_BRIDGE_CONTROLLER
     case (r_curr_state)
       ST_IDLE: begin
          O_PSEL      = 1'b0;
-         O_PWRITE    = 1'bx;
-         O_PENABLE   = 1'bx;
-         O_PADDR     = 'hx; 
-         O_PWDATA    = 'hx; 
-         O_PSTRB     = 'hx; 
-         O_B_DATA    = 'hx; 
-         O_R_DATA    = 'hx; 
+         O_PWRITE    = 1'b0;
+         O_PENABLE   = 1'b0;
+         O_PADDR     = 'h0; 
+         O_PWDATA    = 'h0; 
+         O_PSTRB     = 'h0;  
       end
 
       ST_SETUP_WRITE: begin
@@ -171,13 +169,11 @@ module BOS_BRIDGE_CONTROLLER
       
       default: begin
         O_PSEL      = 1'b0;
-        O_PWRITE    = 1'bx;
-        O_PENABLE   = 1'bx;
-        O_PADDR     = 'hx;
-        O_PWDATA    = 'hx;
-        O_PSTRB     = 'hx;
-        O_B_DATA    = 'hx;
-        O_R_DATA    = 'hx;
+        O_PWRITE    = 1'b0;
+        O_PENABLE   = 1'b0;
+        O_PADDR     = 'h0;
+        O_PWDATA    = 'h0;
+        O_PSTRB     = 'h0;
       end
     endcase
   end
@@ -191,5 +187,7 @@ module BOS_BRIDGE_CONTROLLER
   assign O_POP_READ    = (r_curr_state == ST_ACCESS_READ)  & I_PREADY;
   
   assign O_STATE = r_curr_state;
+  assign O_B_DATA = {I_AW_DATA[BOS_PARA_AWR_DATA_WIDTH - 1 -: 2], I_PSLVERR, 1'b0};
+  assign O_R_DATA = {I_AR_DATA[BOS_PARA_AWR_DATA_WIDTH - 1 -: 2], I_PRDATA, I_PSLVERR, 1'b0};
 
 endmodule: BOS_BRIDGE_CONTROLLER
