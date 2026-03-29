@@ -5,7 +5,6 @@
 //----------------------------------------------------------------------
 
 `timescale 1ns/1ps
-`include "BOS_HEADER.svh"
 
 module AXI_TO_APB_BRIDGE
 (

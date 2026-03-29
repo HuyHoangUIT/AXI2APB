@@ -5,9 +5,14 @@
 //----------------------------------------------------------------------
 
 `timescale 1ns / 1ps
-`include "BOS_HEADER.svh"
 
 module BOS_BRIDGE_CONTROLLER
+#(
+  localparam BOS_PARA_AWR_DATA_WIDTH  = `BOS_DEF_ADDR_WIDTH + `BOS_DEF_ADDR_ID_WIDTH,
+  localparam BOS_PARA_W_DATA_WIDTH    = `BOS_DEF_DATA_WIDTH + `BOS_DEF_STRB_WIDTH,
+  localparam BOS_PARA_B_DATA_WIDTH    = `BOS_DEF_ADDR_ID_WIDTH + 2,
+  localparam BOS_PARA_R_DATA_WIDTH    = `BOS_DEF_DATA_WIDTH + `BOS_DEF_STRB_WIDTH + 2
+)
 (
   // --- System signals ---
   input                                        I_PCLK,
@@ -43,7 +48,7 @@ module BOS_BRIDGE_CONTROLLER
   input        [BOS_PARA_W_DATA_WIDTH-1:0]     I_W_DATA,
   input        [BOS_PARA_AWR_DATA_WIDTH-1:0]   I_AR_DATA,
   output logic [BOS_PARA_B_DATA_WIDTH-1:0]     O_B_DATA,
-  output logic [`BOS_DEF_DATA_WIDTH-1:0]       O_R_DATA,
+  output logic [BOS_PARA_R_DATA_WIDTH-1:0]       O_R_DATA,
 
   // --- FIFO Control Signals ---
   output logic                                 O_POP_WRITE,
@@ -54,9 +59,7 @@ module BOS_BRIDGE_CONTROLLER
   // --- Monitor ---
   output state_t                               O_STATE
 );
-  localparam BOS_PARA_AWR_DATA_WIDTH  = `BOS_DEF_ADDR_WIDTH + `BOS_DEF_ADDR_ID_WIDTH;
-  localparam BOS_PARA_W_DATA_WIDTH    = `BOS_DEF_DATA_WIDTH + `BOS_DEF_STRB_WIDTH;
-  localparam BOS_PARA_B_DATA_WIDTH    = `BOS_DEF_ADDR_ID_WIDTH + 2;
+
   
   state_t r_curr_state, r_next_state;
   logic   w_write_ready, w_read_ready;

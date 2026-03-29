@@ -1,3 +1,9 @@
+//---------------------------------------------------------------------- 
+// Company: BOS Semiconductors
+// Author: Le Phuong Khanh
+//  Description: This is an asynchronous FIFO with Gray code pointers and 2FF synchronizers for crossing clock domains.
+//----------------------------------------------------------------------
+
 `timescale 1ns/1ps
 module BOS_ASYNC_GRAY_FIFO
 #(
